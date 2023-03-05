@@ -1,0 +1,100 @@
+https://www.youtube.com/watch?v=BkUH_6BSFyo
+https://prismaio.notion.site/Deep-Dive-into-Database-Workflows-with-Prisma-Migrate-d435a698d97144daaeb6f61f99c52dbf
+
+Get started
+https://www.prisma.io/docs/getting-started/quickstart
+
+Database
+https://app.supabase.com/
+
+npx prisma init --datasource-provider postgresql
+1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
+2. Run prisma db pull to turn your database schema into a Prisma schema.
+3. Run prisma generate to generate the Prisma Client. You can then start querying your database.
+
+Command
+Usage
+
+  $ prisma [command]
+
+Commands
+
+            init   Setup Prisma for your app
+        generate   Generate artifacts (e.g. Prisma Client)
+              db   Manage your database schema and lifecycle
+         migrate   Migrate your database
+          studio   Browse your data with Prisma Studio
+        validate   Validate your Prisma schema
+          format   Format your Prisma schema
+
+Flags
+
+     --preview-feature   Run Preview Prisma commands
+
+Examples
+
+  Setup a new Prisma project
+  $ prisma init
+
+  Generate artifacts (e.g. Prisma Client)
+  $ prisma generate
+
+  Browse your data
+  $ prisma studio
+
+  Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
+  $ prisma migrate dev
+
+  Pull the schema from an existing database, updating the Prisma schema
+  $ prisma db pull
+
+  Push the Prisma schema state to the database
+  $ prisma db push
+
+prisma db  push synchronizes the Prisma schema with the database schema without persisting a migration to a file.
+npx prisma db push
+
+migrate dev, unlike prisma db push, automatically generates a history of SQL migration files which it uses to keep track of the database state.
+For cloud database, https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
+
+Only create migration file
+npx prisma migrate dev --name initial-migration --create-only
+
+Create migration file and apply
+npx prisma migrate dev --name initial-migration 
+
+Appply migration
+npx prisma migrate dev
+
+Mark the previous migration as rolled back using
+npx prisma migrate resolve --rolled-back
+
+Deploy the change from the last migration
+npx prisma migrate deploy
+
+
+Practices
+1. Generate a draft migration first
+npx prisma migrate dev --name rename-description-field --create-only
+
+2. Vaidate the draft migration sql and update it
+
+3. Run migrate command
+npx prisma migrate dev
+
+Important
+
+1. In a development environment, use the migrate dev command to generate and apply migrations:
+npx prisma migrate dev
+npx prisma migrate dev --create-only
+Note: migrate dev is a development command and should never be used in a production environment.
+
+2. reset the database yourself to undo manual changes or db push experiments by running:
+npx prisma migrate reset 
+Note: migrate reset is a development command and should never be used in a production environment.
+This command will remove all the tables and apply all the migration files again. All data will be lost
+
+3. In production and testing environments, use the migrate deploy command to apply migrations:
+
+npx prisma migrate deploy 
+Note: migrate deploy should generally be part of an automated CI/CD pipeline, and we do not recommend running this command locally to deploy changes to a production database.
